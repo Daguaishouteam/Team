@@ -25,7 +25,7 @@ class App extends Component {
       <div className="App">
         <TopBar isLoggedIn={this.state.isLoggedIn}
                 handleLogout={this.handleLogout}/>
-        <Main isLoggedIn={this.state.isLoggedIn}
+        <Main className='Main' isLoggedIn={this.state.isLoggedIn}
               handleLogin={this.handleLogin}/>
       </div>
     );
