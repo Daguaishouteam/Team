@@ -1,0 +1,14 @@
+.Home {
+    background: #ff9966;
+    min-height: 100%;
+}
+.Home-Btn {
+    margin: 200px 100px 0px 100px;
+    width: 200px;
+    height: 40px;
+}
+
+.Home-Title {
+    margin-top: 150px;
+    font-size: 60pt;
+}

@@ -10,37 +10,34 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 export class Main extends React.Component {
   getRedirect = () => {
     return this.props.isLoggedIn ?
-      <Redirect to="/home" /> :
-      <Redirect to="/login" />
+      <Redirect to="/city" /> :
+      <Redirect to="/home" />
   }
 
   getLogin = () => {
     return this.props.isLoggedIn ?
-      <Redirect to='home' /> :
+      <Redirect to='/city' /> :
       <Login handleLogin={this.props.handleLogin}/>
   }
 
   getHome = () => {
     return this.props.isLoggedIn ?
-      <Home /> :
-      <Redirect to="/login" />;
+      <Redirect to="/login" /> :
+      <Home />;
   }
 
-  getShow = () => {
-        return <Show />;
-  }
 
   render() {
     return(
       <div className="main">
         <Switch>
-          <Route exact path="/" render={this.getLogin} />
+          <Route exact path="/" render={this.getHome} />
           <Route path="/login" render={this.getLogin}/>
           <Route path="/register" component={Register}/>
           <Route path="/home" render={this.getHome}/>
           <Route exact path='/city' component={ City }/>
           <Route exact path='/plan' component={ Plan }/>
-          <Route exact paht='/show' render={this.getShow}/>
+          <Route exact path='/show' component={ Show }/>
           <Route render={this.getRedirect}/>
         </Switch>
       </div>

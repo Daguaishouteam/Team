@@ -6,8 +6,8 @@
     float: left;
 }
 
-.Show {
-    height: 100%;
+.Plan {
+    min-height: 97%;
     width: 100%;
     margin-bottom: 0px;
 }

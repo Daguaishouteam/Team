@@ -13,13 +13,13 @@ export class City extends React.Component {
     } = Layout;
 
     return(
-      <Layout className='Show'>
+      <Layout className='City'>
         <Content style={{ padding: '0 50px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>City Search</Breadcrumb.Item>
           </Breadcrumb>
           <Layout className='ShowContent' style={{ padding: '24px 0', background: '#fff'}}>
-            <Sider width={200} style={{ background: '#fff' }}>
+            <Sider width={350} style={{ background: '#fff' }}>
               <Menu
                 mode="inline"
                 defaultSelectedKeys={['1']}
@@ -47,7 +47,7 @@ export class City extends React.Component {
               </Menu>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
-              Content
+              The whole main part of this page need to be modified.
             </Content>
           </Layout>
         </Content>

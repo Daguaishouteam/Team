@@ -3,6 +3,7 @@ import { TopBar } from './TopBar';
 import { Main } from './Main';
 import '../styles/App.css';
 import {TOKEN_KEY} from "./constants";
+import { Layout } from "antd";
 
 
 class App extends Component {
@@ -21,13 +22,14 @@ class App extends Component {
   }
 
   render() {
+
     return (
-      <div className="App">
+      <Layout className="App">
         <TopBar isLoggedIn={this.state.isLoggedIn}
                 handleLogout={this.handleLogout}/>
         <Main className='Main' isLoggedIn={this.state.isLoggedIn}
               handleLogin={this.handleLogin}/>
-      </div>
+      </Layout>
     );
   }
 }
