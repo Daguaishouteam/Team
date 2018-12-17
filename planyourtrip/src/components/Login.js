@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  Form, Icon, Input, Button
+  Form, Icon, Input, Button, message,
 } from 'antd';
-import {API_ROOT} from "../constants"
+import {Link} from "react-router-dom"
+import {API_ROOT} from "./constants"
 
 const FormItem = Form.Item;
 
@@ -12,6 +13,23 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        fetch(`${API_ROOT}/login`, {
+          method: 'POST',
+          body: JSON.stringify({
+            username: values.username,
+            password: values.password,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            return response;
+          }
+          throw new Error(response.statusText);
+        }).then((response) => {
+          message.success('Login Succeed');
+          this.props.handleLogin(response);
+        }).catch((e) => {
+          message.error('Login Failed');
+        })
       }
     });
   }
@@ -19,9 +37,9 @@ class NormalLoginForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login">
+      <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
@@ -37,11 +55,10 @@ class NormalLoginForm extends React.Component {
         <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
-          </Button>
-          Or <a href={API_ROOT+'/signup'}>register now!</a>
+          </Button> Or <Link to="/register">register now!</Link>
         </FormItem>
       </Form>
-    );// here the `href` need to modify to our project site, just placeholder now
+    );
   }
 }
 

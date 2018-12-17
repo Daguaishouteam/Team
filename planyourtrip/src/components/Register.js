@@ -1,19 +1,20 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { API_ROOT } from '../constants';
+import {API_ROOT} from "./constants";
+import {Link} from "react-router-dom"
 
 const FormItem = Form.Item;
 
 class RegistrationForm extends React.Component {
   state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
+    confirmDirty: false
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        console.log('Received values of form: ', values);
         fetch(`${API_ROOT}/signup`, {
           method: 'POST',
           body: JSON.stringify({
@@ -25,8 +26,10 @@ class RegistrationForm extends React.Component {
             return response;
           }
           throw new Error(response.statusText);
-        }).then(() => {
+        }).then((response) => {
+          console.log(response);
           message.success('Registration Succeed');
+          this.props.history.push('/login');
         }).catch((e) => {
           message.error('Registration Failed');
           console.log(e);
@@ -34,6 +37,7 @@ class RegistrationForm extends React.Component {
       }
     });
   }
+
 
   handleConfirmBlur = (e) => {
     const value = e.target.value;
@@ -83,14 +87,19 @@ class RegistrationForm extends React.Component {
       },
     };
 
+
     return (
-      <Form onSubmit={this.handleSubmit} className="register">
+      <Form className="register" onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
-          label="username"
+          label="Username"
         >
           {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!', whitespace: false }],
+            rules: [{
+              whitespace: true, message:'Could not contains space',
+            },{
+              required: true, message: 'Please input your username!',
+            }],
           })(
             <Input />
           )}
@@ -123,8 +132,10 @@ class RegistrationForm extends React.Component {
             <Input type="password" onBlur={this.handleConfirmBlur} />
           )}
         </FormItem>
+
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
+          <Button type="primary" htmlType="submit" className="register-form-button">Register</Button>
+          I already have an account, go back to <Link to="/login">Login</Link>
         </FormItem>
       </Form>
     );
