@@ -7,9 +7,10 @@
 }
 
 .City {
-    min-height: 97%;
-    width: 100%;
-    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    margin-top: 10%;
 }
 
 .ShowContent {
