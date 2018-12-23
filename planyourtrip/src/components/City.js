@@ -1,4 +1,4 @@
-import {Button, Input} from 'antd';
+import {Input} from 'antd';
 import React from 'react';
 import PropTypes from "prop-types";
 

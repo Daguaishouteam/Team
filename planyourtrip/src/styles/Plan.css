@@ -13,9 +13,23 @@
 }
 
 .ShowContent {
-    height: 100%;
+    min-height: 76vh;
 }
 
 .ShowFooter {
     min-height: 20px;
+}
+
+.FirstPlan {
+    position: relative;
+}
+
+.Next-Btn-Box {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+}
+
+.Next-Btn {
+    width: 40%;
 }

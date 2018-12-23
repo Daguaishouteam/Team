@@ -13,9 +13,18 @@ export class TopBar extends React.Component {
         <img src={logo} className="App-logo" alt="logo" />
         <span className="App-title">Plan Your Trip</span>
         {this.props.isLoggedIn ? (
-          <Link className="logout" onClick={this.props.handleLogout} to='/home'>
-            <Icon type="logout" className="logout-icon"/>
-            Logout</Link>)
+          <div className="logout-manage">
+            <Link className="home" to='/city'>
+              <Icon type="home" className="topbar-icon"/>
+              Home</Link>
+            <Link className="account" to='/account'>
+                <Icon type="user" className="topbar-icon"/>
+                Account Manage</Link>
+            <Link className="logout" onClick={this.props.handleLogout} to='/home'>
+                <Icon type="logout" className="topbar-icon"/>
+                Logout</Link>
+          </div>
+          )
           : null }
       </Header>
     );

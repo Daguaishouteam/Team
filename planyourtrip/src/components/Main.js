@@ -5,7 +5,9 @@ import { Home } from "./Home";
 import { City} from "./City";
 import { Plan} from "./Plan";
 import { Show } from "./Show";
+import {Account} from "./Account";
 import { Route, Switch, Redirect } from 'react-router-dom';
+
 
 export class Main extends React.Component {
   getRedirect = () => {
@@ -38,6 +40,7 @@ export class Main extends React.Component {
           <Route exact path='/city' component={ City }/>
           <Route exact path='/plan' component={ Plan }/>
           <Route exact path='/show' component={ Show }/>
+          <Route exact path='/account' component={ Account }/>
           <Route render={this.getRedirect}/>
         </Switch>
       </div>
