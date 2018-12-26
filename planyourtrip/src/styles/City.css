@@ -11,6 +11,8 @@
     margin-right: auto;
     width: 40%;
     margin-top: 10%;
+    line-height: 10vh;
+    font-size: 30px;
 }
 
 .ShowContent {
@@ -19,4 +21,8 @@
 
 .ShowFooter {
     min-height: 20px;
+}
+
+.AND {
+    font-size: 50px;
 }

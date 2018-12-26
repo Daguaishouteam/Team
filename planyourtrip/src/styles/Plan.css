@@ -12,6 +12,10 @@
     margin-top: 20px;
 }
 
+.PlanBreadcrumb {
+    text-align: left;
+}
+
 .ShowContent {
     min-height: 76vh;
 }
@@ -32,4 +36,27 @@
 
 .Next-Btn {
     width: 40%;
+}
+
+.Plan-Prefix {
+    margin-top: 20px;
+    margin-bottom: 7px;
+}
+
+.City-Name {
+    margin-top: 10px;
+    font-size: 18pt;
+}
+
+.Plan-Description {
+    margin: 10px;
+    font-size: 15pt;
+}
+
+.Plan-Prefix{
+    margin-top: 3%;
+}
+
+.Plan-Prefix-Search {
+    padding: 10px;
 }

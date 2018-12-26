@@ -21,7 +21,7 @@ class NormalLoginForm extends React.Component {
           }),
         }).then((response) => {
           if (response.ok) {
-            return response;
+            return response.text();
           }
           throw new Error(response.statusText);
         }).then((response) => {

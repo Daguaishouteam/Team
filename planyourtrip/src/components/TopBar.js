@@ -1,9 +1,16 @@
 import React from 'react';
 import logo from '../assets/images/logo.svg';
 import { Icon, Layout } from "antd";
-import { Link } from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 export class TopBar extends React.Component {
+
+  getRedirect = () => {
+    return this.props.isLoggedIn ?
+      <Redirect to="/city" /> :
+      <Redirect to="/home" />
+  }
+
   render() {
 
     const { Header } = Layout;

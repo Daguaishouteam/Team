@@ -28,6 +28,13 @@ export class Main extends React.Component {
       <Home />;
   }
 
+  getCity = () => {
+        return <City />;
+  }
+
+  getPlan = () => {
+    return <Plan />;
+  }
 
   render() {
     return(
@@ -37,8 +44,8 @@ export class Main extends React.Component {
           <Route path="/login" render={this.getLogin}/>
           <Route path="/register" component={Register}/>
           <Route path="/home" render={this.getHome}/>
-          <Route exact path='/city' component={ City }/>
-          <Route exact path='/plan' component={ Plan }/>
+          <Route exact path='/city' render={this.getCity}/>
+          <Route exact path='/plan' render={this.getPlan}/>
           <Route exact path='/show' component={ Show }/>
           <Route exact path='/account' component={ Account }/>
           <Route render={this.getRedirect}/>
