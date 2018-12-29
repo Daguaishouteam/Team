@@ -38,27 +38,51 @@ export class Account extends React.Component {
     });
   }
 
+  reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+    destClone.splice(droppableDestination.index, 0, removed);
+
+    const result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+
+    return result;
+  };
+
 
   render() {
     const { initLoading, list } = this.state;
 
     return (
-      <List
-        className="Account-Box"
-        loading={initLoading}
-        itemLayout="horizontal"
-        dataSource={list}
-        renderItem={item => (
-          <List.Item actions={[<Link to="/show">show</Link>, <Link to="/account">delete</Link>]}>
-            <Skeleton title={false} loading={item.loading} active>
-              <List.Item.Meta
-                title={<a href="https://ant.design">{item.name.last}</a>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-              />
-            </Skeleton>
-          </List.Item>
-        )}
-      />
+      <div>
+        <List
+          className="Account-Box"
+          loading={initLoading}
+          itemLayout="horizontal"
+          dataSource={list}
+          renderItem={item => (
+            <List.Item actions={[<Link to="/show">show</Link>, <Link to="/account">delete</Link>]}>
+              <Skeleton title={false} loading={item.loading} active>
+                <List.Item.Meta
+                  title={<a href="https://ant.design">{item.name.last}</a>}
+                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                />
+              </Skeleton>
+            </List.Item>
+          )}
+        />
+      </div>
     );
   }
 }

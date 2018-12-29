@@ -22,6 +22,7 @@ class App extends Component {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem("city");
     localStorage.removeItem("days");
+    localStorage.removeItem("data");
     this.setState({isLoggedIn: false})
   }
 
@@ -33,7 +34,7 @@ class App extends Component {
         <Main className='Main'
               isLoggedIn={this.state.isLoggedIn}
               handleLogin={this.handleLogin}
-              myState={this.myState}
+              // myState={this.myState}
         />
       </Layout>
     );

@@ -60,3 +60,33 @@
 .Plan-Prefix-Search {
     padding: 10px;
 }
+
+.Add-Btn {
+    height: 28px;
+}
+
+.Plan-Day-Trip {
+    margin-right: 6px;
+    margin-left: 6px;
+}
+
+.Day-List {
+    width: 94%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.demo-infinite-container {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: auto;
+    padding: 8px 24px;
+    height: 300px;
+}
+
+.demo-loading-container {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+}

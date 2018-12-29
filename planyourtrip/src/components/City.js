@@ -1,4 +1,4 @@
-import {Input, InputNumber } from 'antd';
+import {Input, InputNumber, message } from 'antd';
 import React from 'react';
 import PropTypes from "prop-types";
 
@@ -8,10 +8,8 @@ export class City extends React.Component {
 
   state= {
     city: localStorage.getItem("city"),
-    days: localStorage.getItem("days"),
+    days: Number(localStorage.getItem("days")),
   };
-  tempcity = "null";
-
 
   //the method begin from here
   static contextTypes = {
@@ -21,12 +19,17 @@ export class City extends React.Component {
     super(props, context);
   }
 
-
   //this method is not safe in the future!!!
   handleSearch = (value) => {
-    localStorage.days = this.state.days;
-    localStorage.city = value;
-    this.context.router.history.push("/plan");
+    value = value.split(" ").join("");
+    console.log(value);
+    if (!value) {
+      message.error("Please input your dream city!");
+    } else {
+      localStorage.days = Number(this.state.days);
+      localStorage.city = value.toUpperCase();
+      this.context.router.history.push("/plan");
+    }
   }
 
   onChange = (value) => {
@@ -35,17 +38,14 @@ export class City extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.onChange(3);
-  }
 
   render() {
     return(
       <div className='City'>
-          <div> <span>You want to have a </span>
+          <div className="City-Description"> <span>You want to have a </span>
             <span>
-              <InputNumber size="default" min={1} max={15} defaultValue={localStorage.getItem("days")} onChange={this.onChange} />
-            </span> days trip,
+              <InputNumber className="City-Day" size="default" min={1} max={15} defaultValue={3} onChange={this.onChange} />
+            </span> <span>days trip,</span>
             <div className="AND">
               AND
             </div>

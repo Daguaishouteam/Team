@@ -79,10 +79,13 @@ export class Show extends React.Component {
                 </SubMenu>
               </Menu>
               <div className='Show-Sider-Btn-Box'>
-                <Button type="primary" className="Save-Btn">
+                <Button type="primary" className="Show-Btn">
+                  <Link to='/plan'>Re-edit</Link>
+                </Button>
+                <Button type="primary" className="Show-Btn">
                   <Link to='/account'>Save Trip</Link>
                 </Button>
-                <Button type="primary" className="Drop-Btn">
+                <Button type="primary" className="Show-Btn">
                 <Link to='/city'>Drop Trip</Link>
               </Button>
               </div>

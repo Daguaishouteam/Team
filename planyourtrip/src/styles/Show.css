@@ -29,12 +29,7 @@
     height: 10%;
 }
 
-.Save-Btn {
-    margin: 10px;
-    width: 30%;
-}
-
-.Drop-Btn {
-    margin: 10px;
-    width: 30%;
+.Show-Btn {
+    margin: 5px;
+    width: 26%;
 }
