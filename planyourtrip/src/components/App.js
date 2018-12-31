@@ -23,6 +23,8 @@ class App extends Component {
     localStorage.removeItem("city");
     localStorage.removeItem("days");
     localStorage.removeItem("data");
+    localStorage.removeItem("lat");
+    localStorage.removeItem("lng");
     this.setState({isLoggedIn: false})
   }
 

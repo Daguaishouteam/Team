@@ -1,6 +1,7 @@
 import {Input, InputNumber, message } from 'antd';
 import React from 'react';
 import PropTypes from "prop-types";
+import {GET_GEO, GOOGLE_MAP_KEY} from "./constants"
 
 const Search = Input.Search;
 
@@ -28,6 +29,7 @@ export class City extends React.Component {
     } else {
       localStorage.days = Number(this.state.days);
       localStorage.city = value.toUpperCase();
+      this.getLatLon(value);
       this.context.router.history.push("/plan");
     }
   }
@@ -38,6 +40,25 @@ export class City extends React.Component {
     });
   }
 
+  getLatLon = (address) => {
+    fetch(`${GET_GEO}address=${address}&key=${GOOGLE_MAP_KEY}`,{
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        return(JSON.parse(response).results[0].geometry.location);
+      })
+      .then((response) => {
+        localStorage.setItem("lat",response.lat);
+        localStorage.setItem("lng",response.lng);
+      })
+  }
 
   render() {
     return(

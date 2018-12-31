@@ -1,13 +1,17 @@
 import React from 'react';
 import {
-  Layout, Breadcrumb, Button, Input, InputNumber, Icon, List, Spin, message
+  Layout, Breadcrumb, Button, Input, InputNumber, List, Spin, message
 } from 'antd';
 import {Link} from "react-router-dom";
 import reqwest from "reqwest";
 import InfiniteScroll from 'react-infinite-scroller';
+import {MyListItem} from "./MyListItem";
+import { PlanMap } from "./PlanMap";
+import { GET_GEO, GOOGLE_MAP_KEY} from './constants';
 
 const Search = Input.Search;
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
+
 
 export class Plan extends React.Component {
 
@@ -22,6 +26,9 @@ export class Plan extends React.Component {
     loading: false,
     hasMore: true,
   }
+
+
+
 
   componentDidMount() {
     if (this.state.initList) {
@@ -40,6 +47,27 @@ export class Plan extends React.Component {
         });
       });
     }
+  }
+
+  getLatLon = (address) => {
+    fetch(`${GET_GEO}address=${address}&key=${GOOGLE_MAP_KEY}`,{
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        return(JSON.parse(response).results[0].geometry.location);
+      })
+      .then((response) => {
+        let lan = response.lat;
+        let lng = response.lng;
+        console.log("getLocation",lan,lng);
+      })
   }
 
   fetchData = (callback) => {
@@ -148,13 +176,7 @@ export class Plan extends React.Component {
                   <List
                     dataSource={this.state.currentData}
                     renderItem={item => (
-                      <List.Item key={item.id}>
-                        <List.Item.Meta
-                          title={<a href="https://ant.design">{item.name.last}</a>}
-                          description={item.email}
-                        />
-                        <div><a onClick={this.handleUp.bind(this)}><Icon type="arrow-up" /></a> or <a onClick={this.handleDelete}><Icon type="delete" /></a></div>
-                      </List.Item>
+                      <MyListItem item={item} handleUp={this.handleUp} handleDelete={this.handleDelete}/>
                     )}
                   >
                     {this.state.loading && this.state.hasMore && (
@@ -172,7 +194,14 @@ export class Plan extends React.Component {
               </div>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
-              The whole main part of this page need to be modified.
+              <div className="Map-Container">
+                <PlanMap
+                  googleMapURL= {"https://maps.googleapis.com/maps/api/js?key="+GOOGLE_MAP_KEY+"&v=3.exp&libraries=geometry,drawing,places"}
+                  isMarkerShown = {false}
+                  lat={this.lat}
+                  lng={this.lng}
+                  />
+              </div>
             </Content>
           </Layout>
         </Content>
