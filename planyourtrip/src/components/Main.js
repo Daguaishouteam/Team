@@ -33,7 +33,7 @@ export class Main extends React.Component {
   }
 
   getPlan = () => {
-    return <Plan />;
+    return <Plan saveTrip={this.props.saveTrip}/>;
   }
 
   render() {

@@ -70,25 +70,22 @@
     margin-left: 6px;
 }
 
-.Day-List {
+.Result-List {
     width: 94%;
     margin-right: auto;
     margin-left: auto;
 }
 
-.demo-infinite-container {
+.Day-List {
+    width: 94%;
+    margin-top: 5px;
+    margin-right: auto;
+    margin-left: auto;
     border: 1px solid #e8e8e8;
     border-radius: 4px;
     overflow: auto;
     padding: 8px 24px;
-    height: 300px;
-}
-
-.demo-loading-container {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    text-align: center;
+    height: 85%;
 }
 
 .Map-Container {

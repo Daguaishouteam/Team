@@ -14,11 +14,11 @@ export class MyListItem extends React.Component {
   }
 
   render() {
+    console.log("myListComponent",this.props.item);
     return(
       <List.Item key={this.props.item.id}>
         <List.Item.Meta
-          title={<a href="https://ant.design">{this.props.item.name.last}</a>}
-          description={this.props.item.email}
+          title={this.props.item.name}
         />
         <div><a onClick={this.handleUp}><Icon type="arrow-up" /></a> or <a onClick={this.handleDelete}><Icon type="delete" /></a></div>
       </List.Item>

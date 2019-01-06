@@ -9,6 +9,7 @@ import { Layout } from "antd";
 class App extends Component {
   state = {
     isLoggedIn: !!localStorage.getItem(TOKEN_KEY),
+    trip: [],
   };
 
   handleLogin = (data) => {
@@ -28,6 +29,11 @@ class App extends Component {
     this.setState({isLoggedIn: false})
   }
 
+  saveTrip = (data) => {
+    this.setState({trip: data},
+      ()=>{console.log("save_trip",this.state.trip)});
+  }
+
   render() {
     return (
       <Layout className="App">
@@ -36,7 +42,8 @@ class App extends Component {
         <Main className='Main'
               isLoggedIn={this.state.isLoggedIn}
               handleLogin={this.handleLogin}
-              // myState={this.myState}
+              saveTrip={this.saveTrip}
+              trip={this.state.trip}
         />
       </Layout>
     );

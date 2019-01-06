@@ -1,52 +1,40 @@
 import React from 'react';
 import {
-  Layout, Breadcrumb, Button, Input, InputNumber, List, Spin, message
+  Layout, Breadcrumb, Button, Input, InputNumber, List, Spin, message, Avatar
 } from 'antd';
 import {Link} from "react-router-dom";
 import reqwest from "reqwest";
 import InfiniteScroll from 'react-infinite-scroller';
 import {MyListItem} from "./MyListItem";
 import { PlanMap } from "./PlanMap";
-import { GET_GEO, GOOGLE_MAP_KEY} from './constants';
+import { GET_GEO, GOOGLE_MAP_KEY, TEXT_SEARCH} from './constants';
+import {ResultList} from "./ResultList"
 
 const Search = Input.Search;
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
+let tmpData = {
+  name: undefined,
+  lat: undefined,
+  lng: undefined,
+  id: undefined
+};
 
 
-export class Plan extends React.Component {
+  export class Plan extends React.Component {
 
   state={
     city: localStorage.getItem("city"),
     days: Number(localStorage.getItem("days")),
-    currentDay: 0,
-    data: new Array(Number(localStorage.getItem("days"))),
+    currentDay: 1,
+    data: Array.from(new Array((Number(localStorage.getItem("days"))+1))),
     currentData: [],
-    initSearch: true,
+    currentSearch: [],
+    isInitMap: false,
     initList: true,
     loading: false,
     hasMore: true,
-  }
-
-
-
-
-  componentDidMount() {
-    if (this.state.initList) {
-
-      this.setState({initList: false},() => {
-        console.log(this.state);
-      });
-    } else {
-      this.fetchData((res) => {
-        this.setState({
-          data: res.results,
-          currentData: [res.results[this.state.currentDay]],
-        },() => {
-          console.log("componentDidMount", JSON.stringify(this.state.data));
-          localStorage.setItem("data", JSON.stringify(this.state.data));
-        });
-      });
-    }
+    isSearched: false,
+    zeroResult: false,
   }
 
   getLatLon = (address) => {
@@ -70,54 +58,59 @@ export class Plan extends React.Component {
       })
   }
 
-  fetchData = (callback) => {
-    reqwest({
-      url: fakeDataUrl,
-      type: 'json',
-      method: 'get',
-      contentType: 'application/json',
-      success: (res) => {
-        callback(res);
-      },
+    componentDidMount() {
+    if (this.state.initList) {
+      this.setState({initList: false},() => {
+        console.log(this.state.initList);
+      });
+    }
+    this.setState({isInitMap : true}, () => {
+      console.log("isInitMap", this.state.isInitMap)
     });
-    console.log("fetchData",this.state);
   }
 
   handleInfiniteOnLoad = () => {
-    let data = this.state.data;
     this.setState({
       loading: true,
-    });
-    if (data.length > 14) {
-      message.warning('Infinite List loaded all');
-      this.setState({
-        hasMore: false,
-        loading: false,
-      });
-      return;
-    }
-    this.fetchData((res) => {
-      data = data.concat(res.results);
-      this.setState({
-        data,
-        loading: false,
-      });
     });
     console.log("InfiniteOnLoad",this.state);
   }
 
   onChange = (value) => {
-    console.log(value);
-    this.componentDidMount();
-    this.setState({currentDay: Number(value)-1,},() => {
-      console.log(this.state)
+    if (value > this.state.days) {return null};
+    console.log("onChange_value",value);
+    let tempData = this.state.data;
+    tempData[this.state.currentDay] = this.state.currentData;
+    console.log("tempData",tempData);
+    this.setState({data: tempData},
+      ()=>{console.log("update_Data",console.log(this.state.data))})
+    this.setState({currentDay: Number(value),},() => {
+      console.log("currentDay",this.state.currentDay);
     });
+    this.setState({currentData: tempData[value]},
+      ()=>{console.log("onChange_currentData", this.state.currentData)})
   }
 
-  handleAdd = (value) => {
-    this.componentDidMount();
-    console.log("handleAdd");
-    return null;
+  handleAdd = () => {
+    if (this.state.currentSearch.length==0) {
+      return null;
+    }
+    tmpData = [{
+      name: this.state.currentSearch.formatted_address,
+      lat: this.state.currentSearch.geometry.location.lat,
+      lng: this.state.currentSearch.geometry.location.lng,
+      id: this.state.currentSearch.id
+    }]
+    let tempData=this.state.currentData;
+    if (tempData == undefined ) {
+      tempData = tmpData
+    } else {
+      tempData = [...tempData,...tmpData];
+    }
+    console.log("Temp and tmp", tempData, tmpData);
+    this.setState({currentData: tempData},
+      ()=>{console.log("currentData",this.state.currentData)});
+    this.handleInfiniteOnLoad();
   }
 
   handleUp = (key) => {
@@ -130,11 +123,58 @@ export class Plan extends React.Component {
     return null;
   }
 
+  handleSearch = (value) => {
+    value = value.split(" ").join("+");
+    // value = value.split("+").join("%2B");
+    // console.log("handleSearch",value);
+    console.log(TEXT_SEARCH,"query=",value,"&key=",GOOGLE_MAP_KEY);
+    fetch(`${TEXT_SEARCH}query=${value}+${localStorage.getItem("city")}&key=${GOOGLE_MAP_KEY}`,{
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then((response) => {
+        if (response.ok) {
+          if (!this.state.isSearched) {
+            this.setState({isSearched: true}, () => {console.log("isSearched",this.state.isSearched)});
+          }
+          return response.text();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        response = JSON.parse(response);
+        if (response.status=="ZERO_RESULTS") {
+          this.setState({zeroResult: true},
+            ()=>{console.log("zeroResult:",this.state.zeroResult)});
+        } else {
+          this.setState({zeroResult: false},
+            ()=>{console.log("zeroResult:",this.state.zeroResult)});
+        }
+        return response;
+      })
+      .then((response) => {
+        if (response.status=="OK") {
+          this.setState({currentSearch: response.results[0]},
+            ()=>{console.log("currentSearch",this.state.currentSearch);})
+        }
+        }
+      )
+      .catch((e) => {
+        throw new Error(e);
+        }
+      )
+  }
+
+  saveTrip = () => {
+    this.onChange(this.state.currentDay);
+    this.props.saveTrip(this.state.data);
+  }
+
   render() {
-    //const { SubMenu } = Menu;
     const {
       Content, Footer, Sider,
     } = Layout;
+    console.log("render",this.state);
 
     return(
       <Layout className='Plan'>
@@ -153,7 +193,7 @@ export class Plan extends React.Component {
                 </div>
                   <Search
                     placeholder="places of interests"
-                    onSearch={value => console.log(value)}
+                    onSearch={this.handleSearch}
                     style={{ width: 300 }}
                   />
                 <div className="Plan-Prefix-Search">
@@ -162,7 +202,19 @@ export class Plan extends React.Component {
                   </Button> <span className="Plan-Day-Trip">to Day</span>
                   <InputNumber size="default" style={{width: 60}} min={1} max={Number(localStorage.getItem("days"))} defaultValue={1} onChange={this.onChange} />
                 </div>
+
               </div>
+              { this.state.isSearched ? (
+                (this.state.zeroResult) ?
+                  (<div> No available Result! </div>)
+                  :
+                  (<div className="Result-List">
+                    <ResultList dataSource={this.state.currentSearch}/>
+                  </div>)
+                )
+                :
+                <div>No Search yet, Please search the place you are interested!</div>
+              }
             </Sider>
             <Sider width={350} style={{ margin: '0 2px', background: '#e1e1ea' }} >
               <div className="Day-List">
@@ -179,28 +231,23 @@ export class Plan extends React.Component {
                       <MyListItem item={item} handleUp={this.handleUp} handleDelete={this.handleDelete}/>
                     )}
                   >
-                    {this.state.loading && this.state.hasMore && (
-                      <div className="demo-loading-container">
-                        <Spin />
-                      </div>
-                    )}
                   </List>
                 </InfiniteScroll>
               </div>
               <div className="Next-Btn-Box">
-                <Button type="primary" className="Next-Btn">
+                <Button type="primary" className="Next-Btn" onClick={this.saveTrip}>
                   <Link to='/show'>Build Your Plan!</Link>
                 </Button>
               </div>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
               <div className="Map-Container">
-                <PlanMap
+                {this.state.isInitMap ? (<PlanMap
                   googleMapURL= {"https://maps.googleapis.com/maps/api/js?key="+GOOGLE_MAP_KEY+"&v=3.exp&libraries=geometry,drawing,places"}
-                  isMarkerShown = {false}
+                  isMarkerShown = {true}
                   lat={this.lat}
                   lng={this.lng}
-                  />
+                />) : null}
               </div>
             </Content>
           </Layout>

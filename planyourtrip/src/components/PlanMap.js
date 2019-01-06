@@ -5,10 +5,14 @@ export class PlanMap extends React.PureComponent {
 
   state = {
     isMarkerShown: false,
+    lat: undefined,
+    lng: undefined,
   }
 
   componentDidMount() {
-    this.delayedShowMarker()
+    this.setState({lat: this.props.lat, lng: this.props.lng},
+      ()=>{console.log(this.state)});
+    this.delayedShowMarker();
   }
 
   delayedShowMarker = () => {
@@ -25,6 +29,8 @@ export class PlanMap extends React.PureComponent {
   render() {
     return (
       <MyMapComponent
+        lat={this.state.lat}
+        lng={this.state.lng}
         googleMapURL={this.props.googleMapURL}
         isMarkerShown={this.state.isMarkerShown}
         onMarkerClick={this.handleMarkerClick}
