@@ -1,0 +1,35 @@
+.logo {
+    width: 120px;
+    height: 31px;
+    background: rgba(255,255,255,.2);
+    margin: 16px 28px 16px 0;
+    float: left;
+}
+
+.Show {
+    height: 97%;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.ShowBreadcrumb {
+    text-align: left;
+}
+
+.ShowContent {
+    height: 100%;
+    max-height: 100%;
+}
+
+.ShowFooter {
+    min-height: 20px;
+}
+
+.Show-Sider-Btn-Box {
+    height: 10%;
+}
+
+.Show-Btn {
+    margin: 5px;
+    width: 26%;
+}

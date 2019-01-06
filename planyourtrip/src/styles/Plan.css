@@ -1,0 +1,93 @@
+.logo {
+    width: 120px;
+    height: 31px;
+    background: rgba(255,255,255,.2);
+    margin: 16px 28px 16px 0;
+    float: left;
+}
+
+.Plan {
+    min-height: 97%;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.PlanBreadcrumb {
+    text-align: left;
+}
+
+.ShowContent {
+    min-height: 76vh;
+}
+
+.ShowFooter {
+    min-height: 20px;
+}
+
+.FirstPlan {
+    position: relative;
+}
+
+.Next-Btn-Box {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+}
+
+.Next-Btn {
+    width: 40%;
+}
+
+.Plan-Prefix {
+    margin-top: 20px;
+    margin-bottom: 7px;
+}
+
+.City-Name {
+    margin-top: 10px;
+    font-size: 18pt;
+}
+
+.Plan-Description {
+    margin: 10px;
+    font-size: 15pt;
+}
+
+.Plan-Prefix{
+    margin-top: 3%;
+}
+
+.Plan-Prefix-Search {
+    padding: 10px;
+}
+
+.Add-Btn {
+    height: 28px;
+}
+
+.Plan-Day-Trip {
+    margin-right: 6px;
+    margin-left: 6px;
+}
+
+.Result-List {
+    width: 94%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.Day-List {
+    width: 94%;
+    margin-top: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: auto;
+    padding: 8px 24px;
+    height: 85%;
+}
+
+.Map-Container {
+    height: 100%;
+}

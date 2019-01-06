@@ -1,0 +1,24 @@
+.logout-manage {
+    float: right;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.topbar-icon {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.logout {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.account {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.home {
+    margin-right: 20px;
+    margin-left: 20px;
+}
